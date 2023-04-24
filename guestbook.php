@@ -1,17 +1,21 @@
 <?php
-// TODO 1: PREPARING ENVIRONMENT: 1) session 2) functions
 session_start();
 
-// TODO 2: ROUTING
+require_once 'functions.php';
 
-// TODO 3: CODE by REQUEST METHODS (ACTIONS) GET, POST, etc. (handle data from request): 1) validate 2) working with data source 3) transforming data
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $data = validateInputData($_POST);
+    saveDataToDataSource($data);
+    header('Location: /guestbook.php');
+    die;
+}
 
-// TODO 4: RENDER: 1) view (html) 2) data (from php)
+$comments = getGuestBookComments();
 
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="">
 
 <?php require_once 'sectionHead.php' ?>
 
@@ -19,11 +23,9 @@ session_start();
 
 <div class="container">
 
-    <!-- navbar menu -->
     <?php require_once 'sectionNavbar.php' ?>
     <br>
 
-    <!-- guestbook section -->
     <div class="card card-primary">
         <div class="card-header bg-primary text-light">
             GuestBook form
@@ -33,7 +35,21 @@ session_start();
             <div class="row">
                 <div class="col-sm-6">
 
-                 <!-- TODO: create guestBook html form   -->
+                    <form action="guestbook.php" method="post">
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="text">Comment:</label>
+                            <textarea class="form-control" id="text" name="text" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
 
                 </div>
             </div>
@@ -51,7 +67,14 @@ session_start();
             <div class="row">
                 <div class="col-sm-6">
 
-                    <!-- TODO: render guestBook comments   -->
+                    <?php foreach ($comments as $comment): ?>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= htmlspecialchars($comment['name']) ?></h5>
+                                <p class="card-text"><?= htmlspecialchars($comment['text']) ?></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
 
                 </div>
             </div>

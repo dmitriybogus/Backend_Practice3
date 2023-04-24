@@ -53,7 +53,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
 
 <!DOCTYPE html>
-<html>
+<html lang="">
 
 <?php require_once 'sectionHead.php' ?>
 
@@ -73,12 +73,16 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
                 <form method="post">
                     <div class="form-group">
                         <label>Email</label>
-                        <input class="form-control" type="email" name="email"/>
+                        <label>
+                            <input class="form-control" type="email" name="email"/>
+                        </label>
                     </div>
 
                     <div class="form-group">
                         <label>Password</label>
-                        <input class="form-control" type="password" name="password"/>
+                        <label>
+                            <input class="form-control" type="password" name="password"/>
+                        </label>
                     </div>
                     <br>
                     <div class="form-group">
